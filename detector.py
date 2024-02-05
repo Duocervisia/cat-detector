@@ -3,6 +3,15 @@ import numpy as np
 import tensorflow as tf
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as viz_utils
+import pygame
+
+def play_audio(file_path):
+    pygame.mixer.init()
+    pygame.mixer.music.load(file_path)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():  # wait for the music to finish playing
+        pygame.time.Clock().tick(10)  # delay for 10 milliseconds
+
 # import RPi.GPIO as GPIO
 
 # Initialize GPIO for buzzer
@@ -40,6 +49,8 @@ while True:
     # Check if cat is detected
     if any((detection_scores > 0.5) & (detection_classes == 17)):
         print("Cat detected!")
+        play_audio('buzzer.mp3')
+
         # GPIO.output(buzzer_pin, GPIO.HIGH)  # Activate buzzer
     else:
         # GPIO.output(buzzer_pin, GPIO.LOW)  # Deactivate buzzer
